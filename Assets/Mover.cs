@@ -12,7 +12,7 @@ public class Mover : MonoBehaviour
 
     void Awake()
     {
-        // StartCoroutine(LegUpdateCoroutine());
+        StartCoroutine(LegUpdateCoroutine());
     }
 
     void Update()
@@ -33,8 +33,9 @@ public class Mover : MonoBehaviour
         {
             transform.Translate(Vector3.right * m_speed * Time.deltaTime);
         }
-    }/*
-    IEnumerator LegUpdateCoroutine()
+    }
+
+    private IEnumerator LegUpdateCoroutine()
     {
         while (true)
         {
@@ -55,5 +56,5 @@ public class Mover : MonoBehaviour
                 yield return null;
             } while (m_backLeftLegStepper.IsMoving || m_frontRightLegStepper.IsMoving);
         }
-    }*/
+    }
 }

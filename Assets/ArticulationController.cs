@@ -13,8 +13,8 @@ public class ArticulationController : MonoBehaviour
 
     private bool m_moving = false;
 
-    //public void TryMove()
-    void Update()
+    //void Update()
+    public void TryMove()
     {
         if (m_moving)
         {
