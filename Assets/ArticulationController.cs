@@ -5,7 +5,7 @@ public class ArticulationController : MonoBehaviour
 {
     [SerializeField] private Transform m_target;
     [SerializeField] private Transform m_feet;
-
+    
     [SerializeField] private float m_distanceToStep = 1f;
     [SerializeField] private float m_moveDuration = 0.3f;
 
@@ -36,7 +36,17 @@ public class ArticulationController : MonoBehaviour
 
         Quaternion endRot = m_target.rotation;
         Vector3 endPoint = m_target.position;
-        
+
+        var heightChecker = m_target.GetComponent<HeightChecker>();
+
+        if (heightChecker != null)
+        {
+            endPoint = new Vector3(endPoint.x, endPoint.y - heightChecker.Height, endPoint.z);
+        }
+
+        Vector3 centerPoint = (startPoint + endPoint) / 2;
+        centerPoint += m_target.up * Vector3.Distance(startPoint, endPoint) / 2f;
+
         float timeElapsed = 0;
 
         do
@@ -44,9 +54,20 @@ public class ArticulationController : MonoBehaviour
             timeElapsed += Time.deltaTime;
 
             float normalizedTime = timeElapsed / m_moveDuration;
+             normalizedTime = Easing.Cubic.InOut(normalizedTime);
 
-            m_feet.position = Vector3.Lerp(startPoint, endPoint, normalizedTime);
-            m_feet.rotation = Quaternion.Slerp(startRot, endRot, normalizedTime);
+            //m_feet.position = Vector3.Lerp(startPoint, endPoint, normalizedTime);
+            //m_feet.rotation = Quaternion.Slerp(startRot, endRot, normalizedTime);
+
+            m_feet.position =
+              Vector3.Lerp(
+                Vector3.Lerp(startPoint, centerPoint, normalizedTime),
+                Vector3.Lerp(centerPoint, endPoint, normalizedTime),
+                normalizedTime
+              );
+
+           // transform.rotation = Quaternion.Slerp(startRot, endRot, normalizedTime);
+
 
             yield return null;
         }

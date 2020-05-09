@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class HeightChecker : MonoBehaviour
 {
-    [SerializeField] float height = 0.15f;
+    public float Height => m_height;
 
-    void FixedUpdate()
+    [SerializeField] float m_height = 0.15f;
+
+    void Update()
     {
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
@@ -14,10 +16,7 @@ public class HeightChecker : MonoBehaviour
         {
             if(hit.transform != this.transform)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit with " + hit.collider.name);
-
-                this.transform.position = new Vector3(this.transform.position.x, hit.point.y + height, this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x, hit.point.y + m_height, this.transform.position.z);
             }
         }
     }
