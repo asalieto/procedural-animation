@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LegResizer : MonoBehaviour
 {
@@ -16,7 +14,6 @@ public class LegResizer : MonoBehaviour
 
         this.transform.position = centerPos;
         this.transform.LookAt(m_endPoint);
-
         
         float scale = Mathf.Abs(Vector3.Distance(m_startPoint.position, m_endPoint.position));
 

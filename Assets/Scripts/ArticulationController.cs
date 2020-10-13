@@ -3,17 +3,8 @@ using UnityEngine;
 
 public class ArticulationController : MonoBehaviour
 {
-    [SerializeField] private Transform m_target;
-    [SerializeField] private Transform m_feet;
-    
-    [SerializeField] private float m_distanceToStep = 1f;
-    [SerializeField] private float m_moveDuration = 0.3f;
-
     public bool IsMoving => m_moving;
 
-    private bool m_moving = false;
-
-    //void Update()
     public void TryMove()
     {
         if (m_moving)
@@ -37,6 +28,7 @@ public class ArticulationController : MonoBehaviour
         Quaternion endRot = m_target.rotation;
         Vector3 endPoint = m_target.position;
 
+        //TODO improve, just testing
         var heightChecker = m_target.GetComponent<HeightChecker>();
 
         if (heightChecker != null)
@@ -66,13 +58,18 @@ public class ArticulationController : MonoBehaviour
                 normalizedTime
               );
 
-           // transform.rotation = Quaternion.Slerp(startRot, endRot, normalizedTime);
-
-
             yield return null;
         }
         while (timeElapsed < m_moveDuration);
 
         m_moving = false;
     }
+
+    private bool m_moving = false;
+
+    [SerializeField] private Transform m_target;
+    [SerializeField] private Transform m_feet;
+
+    [SerializeField] private float m_distanceToStep = 1f;
+    [SerializeField] private float m_moveDuration = 0.3f;
 }
